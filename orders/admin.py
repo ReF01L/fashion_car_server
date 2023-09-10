@@ -1,10 +1,8 @@
 from django.contrib import admin
-from itertools import zip_longest
+from django.db.models import Sum
 
-from products.models import Product
 from .enums import VerboseNameEnum
 from .filters import OrderDateFilter, OrderStatusFilter
-from .forms import OrderForm
 from .models import Order, OrderItem, ServiceOrder
 
 
@@ -14,24 +12,16 @@ class OrderItemsInline(admin.StackedInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    # form = OrderForm
-    # fieldsets = (
-    #     (None, {
-    #         'fields': (
-    #             'client',
-    #             'manager',
-    #             'state',
-    #             'order_items'
-    #         ),
-    #     }),
-    # )
-
     list_display = (
         'created_at',
         'updated_at',
         'client',
         'manager',
-        'state'
+        'state',
+        'additional_expenses',
+        'sale_price',
+        'expenses',
+        'result'
     )
 
     list_filter = (
@@ -39,6 +29,36 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
     inlines = (OrderItemsInline,)
+
+    @admin.display(empty_value='Нет цены', description=VerboseNameEnum.SALE_PRICE.value)
+    def sale_price(self, order: Order):
+        return order.orderitem_set.aggregate(
+            Sum('product__price__sale_price')
+        ).get('product__price__sale_price__sum')
+
+
+    @admin.display(empty_value='Нет цены', description=VerboseNameEnum.EXPENSES.value)
+    def expenses(self, order: Order):
+        return order.orderitem_set.aggregate(
+            Sum('product__price__purchase_price')
+        ).get('product__price__purchase_price__sum')
+
+
+    @admin.display(empty_value='Нет цены', description=VerboseNameEnum.RESULT.value)
+    def result(self, order: Order):
+        sale_price = order.orderitem_set.aggregate(
+            Sum('product__price__sale_price')
+        ).get('product__price__sale_price__sum')
+        purchase_price = order.orderitem_set.aggregate(
+            Sum('product__price__purchase_price')
+        ).get('product__price__purchase_price__sum')
+
+        if sale_price is None or purchase_price is None:
+            return None
+
+        return sale_price - purchase_price - order.additional_expenses
+
+
 
     def save_related(self, request, form, formsets, change):
         order = formsets[0].instance

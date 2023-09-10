@@ -26,6 +26,12 @@ class Order(models.Model):
         verbose_name=VerboseNameEnum.CLIENT.value
     )
 
+    additional_expenses = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name=VerboseNameEnum.ADDITIONAL_EXPENSES.value
+    )
+
     def __str__(self):
         return str(self.id)
 
