@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  db:
+    image: postgis/postgis:15-master
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - 15432:5432
+
+  server:
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env
+    ports:
+      - 7000:80
+    depends_on:
+      - db
+#      - dashboard
+    restart: always
+
+#  amqp:
+#    image: rabbitmq:3.12.4-management
+#    ports:
+#      - 15672:15672
+#      - 5672:5672
+#    logging:
+#      driver: none
+
+#  celery:
+#    restart: always
+#    build:
+#      context: .
+#    command: celery -A product_management worker -l info
+#    volumes:
+#      - .:/tasker
+#    env_file:
+#      - .env
+#    depends_on:
+#      - amqp
+
+#  dashboard:
+#    build:
+#      context: .
+#    command: celery flower -A product_management --port=5555
+#    ports:
+#      - 5555:5555
+#    env_file:
+#      - .env
+#    depends_on:
+#      - celery
+
+networks:
+  default:
+    driver: bridge
