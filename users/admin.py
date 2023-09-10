@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
+from django.db.models import Sum, F
 
+from orders.models import Order
 from .enums import VerboseNameEnum
 from .forms import UserForm
 from .models import Client, Manager, Provider, Master, User
@@ -106,7 +108,8 @@ class ManagerAdmin(admin.ModelAdmin):
         'patronymic',
         'phone',
         'salary',
-        'additional_percent'
+        'additional_percent',
+        'total_salary',
     )
 
     @admin.display(boolean=True, description=VerboseNameEnum.IS_ACTIVE.value)
@@ -128,6 +131,15 @@ class ManagerAdmin(admin.ModelAdmin):
     @admin.display(empty_value='Не указано', description=VerboseNameEnum.PHONE.value)
     def phone(self, obj: Manager):
         return obj.user.phone
+
+    @admin.display(empty_value='???', description=VerboseNameEnum.TOTAL_SALARY.value)
+    def total_salary(self, obj: Manager):
+        res = obj.salary
+
+        orders = Order.objects.filter(manager=obj).annotate(
+            price=Sum(F('orderitem__'))
+        )
+
 
     def get_form(self, request, obj, change, **kwargs):
         form = super().get_form(request, obj, change, **kwargs)

@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class VerboseNameEnum(Enum):
+    TOTAL_SALARY = 'Зарплата'
     PROVIDER = 'Поставщик'
     ADDITIONAL_PERCENT = 'Процент от продаж'
     SALARY = 'Оклад'
