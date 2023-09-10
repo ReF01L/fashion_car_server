@@ -1,9 +1,11 @@
 from django.contrib import admin
-from django.forms import ModelForm, CharField, ValidationError
+from django.contrib.auth.models import Group
 
 from .enums import VerboseNameEnum
 from .forms import UserForm
 from .models import Client, Manager, Provider, Master, User
+
+admin.site.unregister(Group)
 
 
 @admin.register(Client)
@@ -163,6 +165,7 @@ class ManagerAdmin(admin.ModelAdmin):
             obj.additional_percent = form.cleaned_data['additional_percent']
 
             obj.save()
+
 
 @admin.register(Master)
 class MasterAdmin(admin.ModelAdmin):

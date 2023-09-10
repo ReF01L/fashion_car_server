@@ -2,6 +2,7 @@ from django.contrib import admin
 from itertools import zip_longest
 
 from products.models import Product
+from .enums import VerboseNameEnum
 from .filters import OrderDateFilter, OrderStatusFilter
 from .forms import OrderForm
 from .models import Order, OrderItem, ServiceOrder
@@ -55,7 +56,17 @@ class OrderAdmin(admin.ModelAdmin):
 class ServiceOrderAdmin(admin.ModelAdmin):
     list_display = (
         'auto',
+        'service',
+        'client',
+        'manager',
+        'state',
         'sale_price',
         'expenses',
-        'service'
+        'result',
+        'created_at',
+        'updated_at',
     )
+
+    @admin.display(description=VerboseNameEnum.RESULT.value)
+    def result(self, obj: ServiceOrder):
+        return f'{obj.sale_price - obj.expenses}'
