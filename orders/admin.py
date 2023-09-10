@@ -39,20 +39,16 @@ class OrderAdmin(admin.ModelAdmin):
 
     inlines = (OrderItemsInline,)
 
-    def save_model(self, request, obj: Order, form, change):
-        super().save_model(request, obj, form, change)
-
     def save_related(self, request, form, formsets, change):
         order = formsets[0].instance
-        return super().save_related(request, form, formsets, change)
 
+        for product in order.orderitem_set.all():
+            product.product.increased()
 
-@admin.register(OrderItem)
-class OrderItemAdmin(admin.ModelAdmin):
-    list_display = (
-        'product',
-        'provider'
-    )
+        super().save_related(request, form, formsets, change)
+
+        for product in order.orderitem_set.all():
+            product.product.sell()
 
 
 @admin.register(ServiceOrder)
