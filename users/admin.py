@@ -109,7 +109,7 @@ class ManagerAdmin(admin.ModelAdmin):
         'phone',
         'salary',
         'additional_percent',
-        'total_salary',
+        # 'total_salary',
     )
 
     @admin.display(boolean=True, description=VerboseNameEnum.IS_ACTIVE.value)
@@ -132,13 +132,13 @@ class ManagerAdmin(admin.ModelAdmin):
     def phone(self, obj: Manager):
         return obj.user.phone
 
-    @admin.display(empty_value='???', description=VerboseNameEnum.TOTAL_SALARY.value)
-    def total_salary(self, obj: Manager):
-        res = obj.salary
-
-        orders = Order.objects.filter(manager=obj).annotate(
-            price=Sum(F('orderitem__'))
-        )
+    # @admin.display(empty_value='???', description=VerboseNameEnum.TOTAL_SALARY.value)
+    # def total_salary(self, obj: Manager):
+    #     res = obj.salary
+    #
+    #     orders = Order.objects.filter(manager=obj).annotate(
+    #         price=Sum(F('orderitem__'))
+    #     )
 
 
     def get_form(self, request, obj, change, **kwargs):
