@@ -9,7 +9,7 @@ from .enums import StatusEnum
 
 
 class OrderDateFilter(admin.SimpleListFilter):
-    title = _('Получить месяца')
+    title = _('Заказы за')
     parameter_name = 'created_at'
 
     def lookups(self, request, model_admin):

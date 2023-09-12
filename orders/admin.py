@@ -87,6 +87,10 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         'updated_at',
     )
 
+    list_filter = (
+        (OrderDateFilter, OrderStatusFilter)
+    )
+
     @admin.display(description=VerboseNameEnum.RESULT.value)
     def result(self, obj: ServiceOrder):
         return f'{obj.sale_price - obj.expenses}'
