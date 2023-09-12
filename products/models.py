@@ -17,7 +17,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=128, verbose_name=VerboseNameEnum.NAME.value)
-    amount = models.PositiveIntegerField(verbose_name=VerboseNameEnum.AMOUNT.value)
+    amount = models.PositiveIntegerField(default=0, verbose_name=VerboseNameEnum.AMOUNT.value)
     for_supply = models.BooleanField(verbose_name=VerboseNameEnum.FOR_SUPPLY.value)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name=VerboseNameEnum.CATEGORY.value)
@@ -25,6 +25,12 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def save(self, *args, **kwargs):
+        if self.amount == 0:
+            self.for_supply = True
+
+        super().save(*args, **kwargs)
 
     def sell(self, count: int = 1) -> int:
         update_fields = ['amount']

@@ -18,7 +18,6 @@ class ProductUnusedFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         today = timezone.now().date()
-        queryset = Product.objects.all()
 
         if self.value() == UnusedProductsEnum.QUARTER_BY_3_MONTHS.name:
             return queryset.exclude(

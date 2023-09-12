@@ -28,9 +28,13 @@ class ProductAdmin(admin.ModelAdmin):
     exclude = ('advanced_options',)
 
     def get_queryset(self, request):
+        category, _ = Category.objects.get_or_create(
+            name='Тюнинг',
+            defaults={'name': 'Тюнинг'}
+        )
         return super().get_queryset(request).filter(
             for_supply=False
-        )
+        ).exclude(category=category)
 
     @admin.display(empty_value='Не указано', description='Закупочная цена')
     def sale_price(self, product: Product):
@@ -76,9 +80,13 @@ class ProductForSupplyAdmin(admin.ModelAdmin):
     exclude = ('advanced_options',)
 
     def get_queryset(self, request):
-        return Product.objects.filter(
-            for_supply=True
+        category, _ = Category.objects.get_or_create(
+            name='Тюнинг',
+            defaults={'name': 'Тюнинг'}
         )
+        return super().get_queryset(request).filter(
+            for_supply=False
+        ).exclude(category=category)
 
     @admin.display(empty_value='Не указано', description='Закупочная цена')
     def sale_price(self, product: Product):
@@ -125,9 +133,13 @@ class ProductTuningAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         category, _ = Category.objects.get_or_create(
+            name='Тюнинг',
             defaults={'name': 'Тюнинг'}
         )
-        return category.product_set.filter(for_supply=False)
+        return super().get_queryset(request).filter(
+            for_supply=False,
+            category=category
+        )
 
     @admin.display(empty_value='Не указано', description='Закупочная цена')
     def sale_price(self, product: Product):
@@ -174,9 +186,13 @@ class ProductTuningForSupplyAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         category, _ = Category.objects.get_or_create(
+            name='Тюнинг',
             defaults={'name': 'Тюнинг'}
         )
-        return category.product_set.filter(for_supply=False)
+        return super().get_queryset(request).filter(
+            for_supply=True,
+            category=category
+        )
 
     @admin.display(empty_value='Не указано', description='Закупочная цена')
     def sale_price(self, product: Product):
