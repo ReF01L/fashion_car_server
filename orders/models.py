@@ -1,5 +1,6 @@
 from django.db import models
 
+from advanced_options.models import AdvancedOption
 from orders.enums import StatusEnum, VerboseNameEnum, VerboseNamePluralEnum
 from products.models import Product
 from services.models import Service
@@ -30,6 +31,10 @@ class Order(models.Model):
         max_digits=10,
         decimal_places=2,
         verbose_name=VerboseNameEnum.ADDITIONAL_EXPENSES.value
+    )
+
+    advanced_options = models.ManyToManyField(
+        AdvancedOption
     )
 
     def __str__(self):
@@ -82,6 +87,13 @@ class ServiceOrder(models.Model):
     )
 
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name=VerboseNameEnum.SERVICE.value)
+
+    advanced_options = models.ManyToManyField(
+        AdvancedOption
+    )
+
+    def __str__(self):
+        return str(self.id)
 
     class Meta:
         verbose_name = VerboseNameEnum.SERVICE_ORDER.value

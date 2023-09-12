@@ -1,5 +1,6 @@
 from django.db import models
 
+from advanced_options.models import AdvancedOption
 from products.enums import VerboseNameEnum, VerboseNamePluralEnum
 
 
@@ -20,6 +21,7 @@ class Product(models.Model):
     for_supply = models.BooleanField(verbose_name=VerboseNameEnum.FOR_SUPPLY.value)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name=VerboseNameEnum.CATEGORY.value)
+    advanced_options = models.ManyToManyField(AdvancedOption)
 
     def __str__(self) -> str:
         return self.name
@@ -53,6 +55,20 @@ class ProductForSupply(Product):
         proxy = True
         verbose_name = VerboseNameEnum.FOR_SUPPLY.value
         verbose_name_plural = VerboseNamePluralEnum.FOR_SUPPLY.value
+
+
+class ProductTuning(Product):
+    class Meta:
+        proxy = True
+        verbose_name = VerboseNameEnum.TUNING.value
+        verbose_name_plural = VerboseNamePluralEnum.TUNING.value
+
+
+class ProductTuningForSupply(Product):
+    class Meta:
+        proxy = True
+        verbose_name = VerboseNameEnum.TUNING_FOR_SUPPLY.value
+        verbose_name_plural = VerboseNamePluralEnum.TUNING_FOR_SUPPLY.value
 
 
 class Price(models.Model):

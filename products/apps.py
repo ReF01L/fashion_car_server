@@ -6,4 +6,4 @@ from products.enums import VerboseNamePluralEnum
 class ProductsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'products'
-    verbose_name = VerboseNamePluralEnum.PRODUCT.value
+    verbose_name = VerboseNamePluralEnum.PRODUCT_TITLE.value

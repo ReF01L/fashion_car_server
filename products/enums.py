@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class VerboseNameEnum(Enum):
+    TUNING_FOR_SUPPLY = 'Тюнинг под заказ'
+    TUNING = 'Тюнинг в наличии'
     UNUSED_PRODUCTS = 'Неиспользуемые товары'
     FOR_SUPPLY = 'Под поставку'
     SALE_PRICE = 'Цена продажи'
@@ -14,8 +16,11 @@ class VerboseNameEnum(Enum):
 
 
 class VerboseNamePluralEnum(Enum):
-    FOR_SUPPLY = 'Под поставку'
-    PRODUCT = 'Товары'
+    PRODUCT_TITLE = 'Товары'
+    TUNING_FOR_SUPPLY = 'Тюнинг под заказ'
+    TUNING = 'Тюнинг в наличии'
+    FOR_SUPPLY = 'Аксессуары под заказ'
+    PRODUCT = 'Аксессуары в наличии'
     CATEGORY = 'Категории'
     PRICE = 'Цены'
 

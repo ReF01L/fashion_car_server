@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.db.models import Sum
 
+from advanced_options.admin import AdvancedOptionOrderInline, AdvancedOptionServiceOrderInline
 from .enums import VerboseNameEnum
 from .filters import OrderDateFilter, OrderStatusFilter
 from .models import Order, OrderItem, ServiceOrder
@@ -24,11 +25,13 @@ class OrderAdmin(admin.ModelAdmin):
         'result'
     )
 
+    exclude = ('advanced_options',)
+
     list_filter = (
         (OrderDateFilter, OrderStatusFilter)
     )
 
-    inlines = (OrderItemsInline,)
+    inlines = (AdvancedOptionOrderInline, OrderItemsInline)
 
     @admin.display(empty_value='Нет цены', description=VerboseNameEnum.SALE_PRICE.value)
     def sale_price(self, order: Order):
@@ -83,9 +86,13 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         'updated_at',
     )
 
+    exclude = ('advanced_options',)
+
     list_filter = (
         (OrderDateFilter, OrderStatusFilter)
     )
+
+    inlines = (AdvancedOptionServiceOrderInline,)
 
     @admin.display(description=VerboseNameEnum.RESULT.value)
     def result(self, obj: ServiceOrder):
