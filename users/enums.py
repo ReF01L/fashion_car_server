@@ -5,7 +5,7 @@ class VerboseNameEnum(Enum):
     USER = 'Пользователь'
     TOTAL_SALARY = 'Зарплата'
     PROVIDER = 'Поставщик'
-    ADDITIONAL_PERCENT = 'Процент от продаж'
+    ADDITIONAL_PERCENT = 'Процент от прибыли'
     SALARY = 'Оклад'
     MASTER = 'Мастер'
     USER_NAME = 'Имя'
@@ -22,6 +22,7 @@ class VerboseNameEnum(Enum):
 
 
 class VerboseNamePluralEnum(Enum):
+    USER = 'Пользователи'
     PROVIDER = 'Поставщики'
     MASTER = 'Мастер'
     CLIENT = 'Клиенты'

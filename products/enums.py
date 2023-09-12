@@ -8,14 +8,14 @@ class VerboseNameEnum(Enum):
     PURCHASE_PRICE = 'Закупочная цена'
     AMOUNT = 'Количество'
     NAME = 'Название'
-    PRODUCT = 'Продукт'
+    PRODUCT = 'Товар'
     CATEGORY = 'Категория'
     PRICE = 'Цена'
 
 
 class VerboseNamePluralEnum(Enum):
     FOR_SUPPLY = 'Под поставку'
-    PRODUCT = 'Продукты'
+    PRODUCT = 'Товары'
     CATEGORY = 'Категории'
     PRICE = 'Цены'
 

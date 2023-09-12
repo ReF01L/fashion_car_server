@@ -19,6 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
         'purchase_price',
         'margin',
         'result',
+        'sells',
     )
     inlines = (PriceInline,)
     list_filter = (ProductUnusedFilter,)
@@ -48,6 +49,10 @@ class ProductAdmin(admin.ModelAdmin):
         if hasattr(product, 'price'):
             return '{:.2f}%'.format(
                 (product.price.sale_price - product.price.purchase_price) / product.price.sale_price * 100)
+
+    @admin.display(description='Товара продано')
+    def sells(self, product: Product):
+        return product.orderitem_set.all().count()
 
 
 @admin.register(ProductForSupply)

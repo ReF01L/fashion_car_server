@@ -36,13 +36,11 @@ class OrderAdmin(admin.ModelAdmin):
             Sum('product__price__sale_price')
         ).get('product__price__sale_price__sum')
 
-
     @admin.display(empty_value='Нет цены', description=VerboseNameEnum.EXPENSES.value)
     def expenses(self, order: Order):
         return order.orderitem_set.aggregate(
             Sum('product__price__purchase_price')
         ).get('product__price__purchase_price__sum')
-
 
     @admin.display(empty_value='Нет цены', description=VerboseNameEnum.RESULT.value)
     def result(self, order: Order):
@@ -57,8 +55,6 @@ class OrderAdmin(admin.ModelAdmin):
             return None
 
         return sale_price - purchase_price - order.additional_expenses
-
-
 
     def save_related(self, request, form, formsets, change):
         order = formsets[0].instance

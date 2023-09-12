@@ -25,8 +25,15 @@ class Product(models.Model):
         return self.name
 
     def sell(self, count: int = 1) -> int:
+        update_fields = ['amount']
+
         self.amount -= count
-        self.save(update_fields=('amount',))
+
+        if self.amount == 0:
+            self.for_supply = True
+            update_fields.append('for_supply')
+
+        self.save(update_fields=update_fields)
 
         return self.amount
 
