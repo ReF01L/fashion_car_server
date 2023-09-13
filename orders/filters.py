@@ -1,4 +1,3 @@
-from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 
 from django.contrib import admin
@@ -57,6 +56,12 @@ class OrderStatusFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         status = self.value()
         if status is None:
-            return queryset
+            return queryset.filter(
+                state__in=(
+                    StatusEnum.WAIT.name,
+                    StatusEnum.PROGRESS.name,
+                    StatusEnum.READY.name
+                )
+            )
 
         return queryset.filter(state=StatusEnum[status].name)
