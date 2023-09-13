@@ -22,4 +22,4 @@ class Auto(models.Model):
     )
 
     def __str__(self):
-        return f'{self.name} {self.year} {self.rudder} {self.drive}'
+        return ' | '.join((self.name, str(self.year), RudderTypeEnum[self.rudder].value, DriveEnum[self.drive].value))

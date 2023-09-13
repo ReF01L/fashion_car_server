@@ -23,23 +23,23 @@ class OrderDateFilter(admin.SimpleListFilter):
         today = timezone.now().date()
         if self.value() == '1 Months':
             return queryset.filter(
-                created_at__lte=today,
-                created_at__gte=today - relativedelta(months=1)
+                created_at__date__lte=today,
+                created_at__date__gte=today - relativedelta(months=1)
             )
         elif self.value() == '3 Months':
             return queryset.filter(
-                created_at__lte=today,
-                created_at__gte=today - relativedelta(months=3)
+                created_at__date__lte=today,
+                created_at__date__gte=today - relativedelta(months=3)
             )
         elif self.value() == '6 Months':
             return queryset.filter(
-                created_at__lte=today,
-                created_at__gte=today - relativedelta(months=6)
+                created_at__date__lte=today,
+                created_at__date__gte=today - relativedelta(months=6)
             )
         elif self.value() == '12 Months':
             return queryset.filter(
-                created_at__lte=today,
-                created_at__gte=today - relativedelta(months=12)
+                created_at__date__lte=today,
+                created_at__date__gte=today - relativedelta(months=12)
             )
         return queryset
 
