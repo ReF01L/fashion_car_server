@@ -8,6 +8,7 @@ class VerboseNameEnum(Enum):
 
 
 class VerboseNamePluralEnum(Enum):
+    SALE_OPTION = 'Описание продажи'
     PRODUCT_OPTION = 'Описание товара'
     ORDER_SERVICE_OPTION = 'Описание услуги'
     ORDER_OPTION = 'Описание заказа'

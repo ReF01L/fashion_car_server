@@ -61,6 +61,53 @@ class OrderItem(models.Model):
         verbose_name_plural = VerboseNamePluralEnum.ORDER_ITEM.value
 
 
+class Sale(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=VerboseNameEnum.CREATED_AT.value)
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=VerboseNameEnum.UPDATED_AT.value)
+
+    manager = models.ForeignKey(
+        Manager,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name=VerboseNameEnum.MANAGER.value
+    )
+    client = models.ForeignKey(
+        Client,
+        on_delete=models.CASCADE,
+        verbose_name=VerboseNameEnum.CLIENT.value
+    )
+
+    advanced_options = models.ManyToManyField(
+        AdvancedOption
+    )
+
+    def __str__(self):
+        return str(self.id)
+
+    class Meta:
+        verbose_name = VerboseNameEnum.SALE.value
+        verbose_name_plural = VerboseNamePluralEnum.SALE.value
+
+
+class SaleItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name=VerboseNameEnum.PRODUCT.value)
+    provider = models.ForeignKey(
+        Provider,
+        on_delete=models.CASCADE,
+        null=True,
+        default=None,
+        verbose_name=VerboseNameEnum.PROVIDER.value
+    )
+    sale = models.ForeignKey(Sale, on_delete=models.CASCADE, verbose_name=VerboseNameEnum.SALE.value)
+
+    def __str__(self):
+        return str(self.product)
+
+    class Meta:
+        verbose_name = VerboseNameEnum.SALE_ITEM.value
+        verbose_name_plural = VerboseNamePluralEnum.SALE_ITEM.value
+
+
 class ServiceOrder(models.Model):
     auto = models.CharField(max_length=64, verbose_name=VerboseNameEnum.AUTO.value)
     sale_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name=VerboseNameEnum.SALE_PRICE.value)

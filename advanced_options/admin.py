@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from advanced_options.enums import VerboseNamePluralEnum
 from advanced_options.models import AdvancedOption
-from orders.models import Order, ServiceOrder
+from orders.models import Order, ServiceOrder, Sale
 from products.models import Product
 
 
@@ -22,6 +22,12 @@ class AdvancedOptionProductInline(admin.TabularInline):
     model = Product.advanced_options.through
     extra = 1
     verbose_name = VerboseNamePluralEnum.PRODUCT_OPTION.value
+
+
+class AdvancedOptionSaleInline(admin.TabularInline):
+    model = Sale.advanced_options.through
+    extra = 1
+    verbose_name = VerboseNamePluralEnum.SALE_OPTION.value
 
 
 @admin.register(AdvancedOption)

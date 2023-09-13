@@ -9,6 +9,8 @@ class StatusEnum(Enum):
 
 
 class VerboseNameEnum(Enum):
+    SALE_ITEM = 'Товар для продажи'
+    SALE = 'Продажа'
     MASTER = 'Мастер'
     ADDITIONAL_EXPENSES = 'Дополнительные расходы'
     RESULT = 'Выручка'
@@ -29,6 +31,8 @@ class VerboseNameEnum(Enum):
 
 
 class VerboseNamePluralEnum(Enum):
+    SALE_ITEM = 'Товары для продажи'
+    SALE = 'Продажи'
     ORDER_ITEM = 'Элементы заказа'
     SERVICE_ORDER = 'Заказы услуг'
     ORDER = 'Заказы'

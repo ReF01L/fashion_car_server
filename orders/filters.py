@@ -44,6 +44,10 @@ class OrderDateFilter(admin.SimpleListFilter):
         return queryset
 
 
+class SaleDateFilter(OrderDateFilter):
+    title = _('Продажи за')
+
+
 class OrderStatusFilter(admin.SimpleListFilter):
     title = _('Фильтр по статусам')
     parameter_name = 'state'
