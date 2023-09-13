@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from advanced_options.admin import AdvancedOptionProductInline
 from products.filters import ProductUnusedFilter
 from products.models import Product, Category, Price, ProductForSupply, ProductTuning, ProductTuningForSupply
 
@@ -23,7 +22,7 @@ class ProductAdmin(admin.ModelAdmin):
         'result',
         'sells',
     )
-    inlines = (PriceInline, AdvancedOptionProductInline)
+    inlines = (PriceInline,)
     list_filter = (ProductUnusedFilter,)
     exclude = ('advanced_options',)
 
@@ -75,7 +74,7 @@ class ProductForSupplyAdmin(admin.ModelAdmin):
         'result',
         'sells',
     )
-    inlines = (PriceInline, AdvancedOptionProductInline)
+    inlines = (PriceInline,)
     list_filter = (ProductUnusedFilter,)
     exclude = ('advanced_options',)
 
@@ -127,7 +126,7 @@ class ProductTuningAdmin(admin.ModelAdmin):
         'result',
         'sells',
     )
-    inlines = (PriceInline, AdvancedOptionProductInline)
+    inlines = (PriceInline,)
     list_filter = (ProductUnusedFilter,)
     exclude = ('advanced_options',)
 
@@ -180,7 +179,7 @@ class ProductTuningForSupplyAdmin(admin.ModelAdmin):
         'result',
         'sells',
     )
-    inlines = (PriceInline, AdvancedOptionProductInline)
+    inlines = (PriceInline,)
     list_filter = (ProductUnusedFilter,)
     exclude = ('advanced_options',)
 

@@ -9,6 +9,7 @@ class StatusEnum(Enum):
 
 
 class VerboseNameEnum(Enum):
+    DESCRIPTION = 'Описание'
     SALE_ITEM = 'Товар для продажи'
     SALE = 'Продажа'
     MASTER = 'Мастер'

@@ -1,6 +1,6 @@
 from django.db import models
 
-from advanced_options.models import AdvancedOption
+from automobile.models import Auto
 from orders.enums import StatusEnum, VerboseNameEnum, VerboseNamePluralEnum
 from products.models import Product
 from services.models import Service
@@ -14,6 +14,8 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=VerboseNameEnum.CREATED_AT.value)
     updated_at = models.DateTimeField(auto_now=True, verbose_name=VerboseNameEnum.UPDATED_AT.value)
+
+    auto = models.ForeignKey(Auto, on_delete=models.SET_NULL, null=True, verbose_name=VerboseNameEnum.AUTO.value)
 
     manager = models.ForeignKey(
         Manager,
@@ -33,9 +35,7 @@ class Order(models.Model):
         verbose_name=VerboseNameEnum.ADDITIONAL_EXPENSES.value
     )
 
-    advanced_options = models.ManyToManyField(
-        AdvancedOption
-    )
+    description = models.TextField(verbose_name=VerboseNameEnum.DESCRIPTION.value)
 
     def __str__(self):
         return str(self.id)
@@ -65,6 +65,8 @@ class Sale(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=VerboseNameEnum.CREATED_AT.value)
     updated_at = models.DateTimeField(auto_now=True, verbose_name=VerboseNameEnum.UPDATED_AT.value)
 
+    auto = models.ForeignKey(Auto, on_delete=models.SET_NULL, null=True, verbose_name=VerboseNameEnum.AUTO.value)
+
     manager = models.ForeignKey(
         Manager,
         on_delete=models.SET_NULL,
@@ -77,9 +79,7 @@ class Sale(models.Model):
         verbose_name=VerboseNameEnum.CLIENT.value
     )
 
-    advanced_options = models.ManyToManyField(
-        AdvancedOption
-    )
+    description = models.TextField(verbose_name=VerboseNameEnum.DESCRIPTION.value)
 
     def __str__(self):
         return str(self.id)
@@ -109,7 +109,6 @@ class SaleItem(models.Model):
 
 
 class ServiceOrder(models.Model):
-    auto = models.CharField(max_length=64, verbose_name=VerboseNameEnum.AUTO.value)
     sale_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name=VerboseNameEnum.SALE_PRICE.value)
     expenses = models.DecimalField(max_digits=9, decimal_places=2, verbose_name=VerboseNameEnum.EXPENSES.value)
 
@@ -134,10 +133,9 @@ class ServiceOrder(models.Model):
     )
 
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name=VerboseNameEnum.SERVICE.value)
+    auto = models.ForeignKey(Auto, on_delete=models.SET_NULL, null=True, verbose_name=VerboseNameEnum.AUTO.value)
 
-    advanced_options = models.ManyToManyField(
-        AdvancedOption
-    )
+    description = models.TextField(verbose_name=VerboseNameEnum.DESCRIPTION.value)
 
     def __str__(self):
         return str(self.id)

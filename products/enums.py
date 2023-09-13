@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class VerboseNameEnum(Enum):
+    DESCRIPTION = 'Описание'
     TUNING_FOR_SUPPLY = 'Тюнинг под заказ'
     TUNING = 'Тюнинг в наличии'
     UNUSED_PRODUCTS = 'Неиспользуемые товары'

@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     'users',
     'services',
     'orders',
-    'advanced_options',
     'advertising',
+    'automobile',
 ]
 
 MIDDLEWARE = [

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.db.models import Sum
 
-from advanced_options.admin import AdvancedOptionOrderInline, AdvancedOptionServiceOrderInline, AdvancedOptionSaleInline
 from .enums import VerboseNameEnum
 from .filters import OrderDateFilter, OrderStatusFilter, SaleDateFilter
 from .models import Order, OrderItem, ServiceOrder, Sale, SaleItem
@@ -31,13 +30,11 @@ class OrderAdmin(admin.ModelAdmin):
         'result'
     )
 
-    exclude = ('advanced_options',)
-
     list_filter = (
         (OrderDateFilter, OrderStatusFilter)
     )
 
-    inlines = (AdvancedOptionOrderInline, OrderItemsInline)
+    inlines = (OrderItemsInline,)
 
     @admin.display(empty_value='Нет цены', description=VerboseNameEnum.SALE_PRICE.value)
     def sale_price(self, order: Order):
@@ -80,7 +77,6 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(ServiceOrder)
 class ServiceOrderAdmin(admin.ModelAdmin):
     list_display = (
-        'auto',
         'service',
         'client',
         'master',
@@ -92,13 +88,9 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         'updated_at',
     )
 
-    exclude = ('advanced_options',)
-
     list_filter = (
         (OrderDateFilter, OrderStatusFilter)
     )
-
-    inlines = (AdvancedOptionServiceOrderInline,)
 
     @admin.display(description=VerboseNameEnum.RESULT.value)
     def result(self, obj: ServiceOrder):
@@ -117,13 +109,11 @@ class SaleAdmin(admin.ModelAdmin):
         'result'
     )
 
-    exclude = ('advanced_options',)
-
     list_filter = (
         (SaleDateFilter,)
     )
 
-    inlines = (AdvancedOptionSaleInline, SaleItemsInline)
+    inlines = (SaleItemsInline,)
 
     def save_related(self, request, form, formsets, change):
         sale: Sale = formsets[0].instance
@@ -161,4 +151,3 @@ class SaleAdmin(admin.ModelAdmin):
             return None
 
         return sale_price - purchase_price
-
