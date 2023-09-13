@@ -1,3 +1,18 @@
 from django.contrib import admin
 
-# Register your models here.
+from advertising.models import Advertising
+
+
+@admin.register(Advertising)
+class AdvertisingAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'price',
+        'created_at',
+        'updated_at'
+    )
+
+    readonly_fields = (
+        'created_at',
+        'updated_at'
+    )

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'services',
     'orders',
     'advanced_options',
+    'advertising',
 ]
 
 MIDDLEWARE = [
