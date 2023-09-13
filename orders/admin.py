@@ -126,14 +126,14 @@ class SaleAdmin(admin.ModelAdmin):
     inlines = (AdvancedOptionSaleInline, SaleItemsInline)
 
     def save_related(self, request, form, formsets, change):
-        sale = formsets[0].instance
+        sale: Sale = formsets[0].instance
 
-        for product in sale.orderitem_set.all():
+        for product in sale.saleitem_set.all():
             product.product.increased()
 
         super().save_related(request, form, formsets, change)
 
-        for product in sale.saleitem_seta.all():
+        for product in sale.saleitem_set.all():
             product.product.sell()
 
     @admin.display(empty_value='Нет цены', description=VerboseNameEnum.SALE_PRICE.value)
