@@ -125,6 +125,17 @@ class SaleAdmin(admin.ModelAdmin):
 
     inlines = (AdvancedOptionSaleInline, SaleItemsInline)
 
+    def save_related(self, request, form, formsets, change):
+        order = formsets[0].instance
+
+        for product in order.orderitem_set.all():
+            product.product.increased()
+
+        super().save_related(request, form, formsets, change)
+
+        for product in order.orderitem_set.all():
+            product.product.sell()
+
     @admin.display(empty_value='Нет цены', description=VerboseNameEnum.SALE_PRICE.value)
     def sale_price(self, sale: Sale):
         return sale.saleitem_set.aggregate(
