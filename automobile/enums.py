@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class VerboseNameEnum(Enum):
+    AUTO = 'Автомобиль'
     DRIVE = 'Вид привода'
     NAME = 'Название'
     YEAR = 'Год'
@@ -9,7 +10,7 @@ class VerboseNameEnum(Enum):
 
 
 class VerboseNamePluralEnum(Enum):
-    pass
+    AUTO = 'Автомобили'
 
 
 class RudderTypeEnum(Enum):

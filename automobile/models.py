@@ -1,6 +1,6 @@
 from django.db import models
 
-from automobile.enums import RudderTypeEnum, VerboseNameEnum, DriveEnum
+from automobile.enums import RudderTypeEnum, VerboseNameEnum, DriveEnum, VerboseNamePluralEnum
 
 
 class Auto(models.Model):
@@ -23,3 +23,7 @@ class Auto(models.Model):
 
     def __str__(self):
         return ' | '.join((self.name, str(self.year), RudderTypeEnum[self.rudder].value, DriveEnum[self.drive].value))
+
+    class Meta:
+        verbose_name = VerboseNameEnum.AUTO.value
+        verbose_name_plural = VerboseNamePluralEnum.AUTO.value
