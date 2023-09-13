@@ -9,6 +9,7 @@ class StatusEnum(Enum):
 
 
 class VerboseNameEnum(Enum):
+    MASTER = 'Мастер'
     ADDITIONAL_EXPENSES = 'Дополнительные расходы'
     RESULT = 'Выручка'
     ORDER_ITEM = 'Элемент заказа'

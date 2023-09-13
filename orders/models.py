@@ -4,7 +4,7 @@ from advanced_options.models import AdvancedOption
 from orders.enums import StatusEnum, VerboseNameEnum, VerboseNamePluralEnum
 from products.models import Product
 from services.models import Service
-from users.models import Client, Provider, Manager
+from users.models import Client, Provider, Manager, Master
 
 
 class Order(models.Model):
@@ -73,11 +73,11 @@ class ServiceOrder(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=VerboseNameEnum.CREATED_AT.value, null=True)
     updated_at = models.DateTimeField(auto_now=True, verbose_name=VerboseNameEnum.UPDATED_AT.value, null=True)
 
-    manager = models.ForeignKey(
-        Manager,
+    master = models.ForeignKey(
+        Master,
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name=VerboseNameEnum.MANAGER.value
+        verbose_name=VerboseNameEnum.MASTER.value
     )
     client = models.ForeignKey(
         Client,

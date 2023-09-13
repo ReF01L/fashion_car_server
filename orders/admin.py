@@ -77,7 +77,7 @@ class ServiceOrderAdmin(admin.ModelAdmin):
         'auto',
         'service',
         'client',
-        'manager',
+        'master',
         'state',
         'sale_price',
         'expenses',
