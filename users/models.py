@@ -1,11 +1,24 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
-from django.db import models, transaction
+from django.db import models
 
 from users.managers import UserManager
 from users.validators import phone_validator
 from users.enums import VerboseNameEnum, VerboseNamePluralEnum
+
+
+class Mulct(models.Model):
+    name = models.CharField(max_length=128, verbose_name=VerboseNameEnum.NAME.value)
+    description = models.TextField(verbose_name=VerboseNameEnum.DESCRIPTION.value)
+    value = models.DecimalField(max_digits=7, decimal_places=2, verbose_name=VerboseNameEnum.VALUE.value)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = VerboseNameEnum.MULCT.value
+        verbose_name_plural = VerboseNamePluralEnum.MULCT.value
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -47,18 +60,28 @@ class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.user.name}'
+        return f'{self.user.name} {self.user.phone}'
 
     class Meta:
         verbose_name = VerboseNameEnum.CLIENT.value
         verbose_name_plural = VerboseNamePluralEnum.CLIENT.value
 
 
-class Manager(models.Model):
+class Employ(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     salary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name=VerboseNameEnum.SALARY.value)
     additional_percent = models.PositiveIntegerField(verbose_name=VerboseNameEnum.ADDITIONAL_PERCENT.value)
 
+    class Meta:
+        abstract = True
+
+
+class Manager(Employ):
+    mulcts = models.ManyToManyField(
+        to=Mulct,
+        related_name='manager_mulcts',
+        verbose_name=VerboseNamePluralEnum.MULCT.value
+    )
     def __str__(self):
         return f'{self.user.second_name} {self.user.name}'
 
@@ -67,11 +90,12 @@ class Manager(models.Model):
         verbose_name_plural = VerboseNamePluralEnum.MANAGER.value
 
 
-class Master(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    salary = models.DecimalField(max_digits=9, decimal_places=2, verbose_name=VerboseNameEnum.SALARY.value)
-    additional_percent = models.PositiveIntegerField(verbose_name=VerboseNameEnum.ADDITIONAL_PERCENT.value)
-
+class Master(Employ):
+    mulcts = models.ManyToManyField(
+        to=Mulct,
+        related_name='master_mulcts',
+        verbose_name=VerboseNamePluralEnum.MULCT.value
+    )
     def __str__(self):
         return f'{self.user.second_name} {self.user.name}'
 

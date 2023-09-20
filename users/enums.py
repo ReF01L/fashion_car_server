@@ -2,6 +2,10 @@ from enum import Enum
 
 
 class VerboseNameEnum(Enum):
+    MULCT = 'Штраф'
+    NAME = 'Название'
+    VALUE = 'Значение'
+    DESCRIPTION = 'Описание'
     USER = 'Пользователь'
     TOTAL_SALARY = 'Зарплата'
     PROVIDER = 'Поставщик'
@@ -22,6 +26,7 @@ class VerboseNameEnum(Enum):
 
 
 class VerboseNamePluralEnum(Enum):
+    MULCT = 'Штрафы'
     USER = 'Пользователи'
     PROVIDER = 'Поставщики'
     MASTER = 'Мастер'
